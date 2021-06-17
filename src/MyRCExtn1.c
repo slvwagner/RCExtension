@@ -24,14 +24,12 @@ static const R_CMethodDef cMethods[] =
 ////// .cal interface style ///////////////
 //
 SEXP Flugbahn (SEXP v0, SEXP t, SEXP angle_Schussebenen,SEXP Ziel_Schussebenen,SEXP m, SEXP k);
-SEXP foo(SEXP x, SEXP c_lenght);
 SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_0, SEXP mu, SEXP return_type);
 
 R_CallMethodDef callMethods[] =
 {
 	// C functions extended by using .Call interface
 	{ "Flugbahn",   (DL_FUNC)&Flugbahn,  6 },
-	{ "foo",   (DL_FUNC)&foo,  2 },
 	{ "pendulum_motion", (DL_FUNC)&pendulum_motion,  7 },
 	{ NULL, NULL, 0 }
 };
@@ -225,36 +223,6 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
   UNPROTECT(1);
   return result;
 }
-
-SEXP foo(SEXP x, SEXP c_lenght)
-{
-  // User-controlled memory
-  // https://colinfay.me/writing-r-extensions/the-r-api-entry-points-for-c-code.html
-  double* p_x = (double *)Calloc(asReal(c_lenght)+10, double);
-
-  //init
-  for(unsigned long int i = 0; i < asReal(c_lenght)+10; i++){
-    p_x[i] = 0.000001;
-  }
-
-  //assigne values
-  for(unsigned long int i = 0; i < asReal(c_lenght); i++){
-    *(p_x+i) = REAL(x)[i];
-  }
-
-  //Datenspeicher von R lesbar
-  SEXP result = PROTECT(allocVector(REALSXP,asReal(c_lenght)+10));
-
-  //apply data to vector
-  for(unsigned long int i = 0; i < asReal(c_lenght)+10; i++){
-    REAL(result)[i] = p_x[i];
-  }
-
-  Free(p_x);
-  UNPROTECT(1);
-  return result;
-}
-
 
 SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_0, SEXP mu, SEXP return_type)
 {

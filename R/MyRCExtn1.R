@@ -31,10 +31,6 @@ Multiply <- function(x,y)
   .C( C_Multiply, x, y, numeric(1) ) [[3]]
 }
 
-foo <- function (x)
-{
-  .Call(C_foo, as.numeric(x), as.integer(length(x)))
-}
 ####################################
 # Pendelbewegung in C
 pendulum_motion <- function ( t,  L,  delta_t,  THETA_0,  THETA_DOT_0,  mu, type = "theta")
