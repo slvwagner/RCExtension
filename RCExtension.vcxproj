@@ -75,6 +75,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>D:\R\R-4.1.0\R-4.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\R\R-4.1.0\R-4.1.0\include;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,6 +114,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(MY_R_DIR)\bin\x64</AdditionalLibraryDirectories>
       <AdditionalOptions>r.lib %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>D:\R\R-4.1.0\R-4.1.0\bin\x64;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -29,5 +29,9 @@ Returns matrix with theta and the angular velocity \code{x}
 \examples{
 delta_t <- 1e-6
 system.time(pendulum_motion(50, 2,  delta_t,   pi/3,   0,  0.1)|>
-              plot(type = "l",main = paste("time interval [s]",delta_t)))
+              plot(type = "l",main = paste("time interval:",delta_t,"[s]")))
+
+system.time(pendulum_motion(50, 2,  delta_t,   pi/3,   3,  0.1)|>
+              plot(type = "l",main = paste("time interval:",delta_t,"[s]")))
+
 }
