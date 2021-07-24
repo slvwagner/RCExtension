@@ -86,8 +86,8 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
 {
   // Werte die abgespeichert werden und an R zurueckgegeben werden
   static const unsigned int column = 5;        // colums of matrix
-  static const unsigned int c_nb_values = 999; // rows of matrix
-  static int c_seq[999];
+  static const unsigned int c_nb_values = 1000; // rows of matrix
+  int * c_seq = (int *) calloc(c_nb_values, sizeof(int));
 
   //static int* p_seq = (int*)calloc(c_nb_values, sizeof(int));
 
@@ -189,7 +189,7 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
       if (p_sx[i] > REAL(Ziel_Schussebenen)[0]) {
 
         int ratio = floor(i / c_nb_values-1);
-        
+
         for (int i = 0; i < (c_nb_values) ; i++) {
           c_seq[i] = i * ratio;
         }
@@ -216,6 +216,7 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
     }
     cnt = cnt+1;
   }
+  free(c_seq);
   Free(p_vx);
   Free(p_vy);
   Free(p_sx);
@@ -230,8 +231,8 @@ SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_
 {
   // Werte die abgespeichert werden und an R zurueckgegeben werden
   const unsigned int column = 3;        // colums of matrix
-  const unsigned int c_nb_values = 999; // rows of matrix
-  static int c_seq[999];
+  const unsigned int c_nb_values = 1000; // rows of matrix
+  int * c_seq = (int *) calloc(c_nb_values, sizeof(int));
 
   //Datenspeicher von R lesbar
   SEXP result = PROTECT(allocVector(REALSXP, c_nb_values*column));
@@ -260,7 +261,7 @@ SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_
   }
   // Nur die vorgegebenen Anzahl Werte zurückgeben
   int ratio = floor(nb_values / c_nb_values)+1;
-  
+
   for (int i = 0; i < (c_nb_values); i++) {
     c_seq[i] = i * ratio;
   }
@@ -276,7 +277,7 @@ SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_
   for (int i = 0; i < c_nb_values; i++) {
     REAL(result)[i + (2 * c_nb_values)] = p_theta_dot[c_seq[i]];
   }
-
+  free(c_seq);
   Free(p_theta);
   Free(p_theta_dot);
   UNPROTECT(1);
