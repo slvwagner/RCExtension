@@ -85,8 +85,11 @@ double get_theta_double_dot(double theta, double theta_dot, double L, double mu)
 SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,SEXP m, SEXP k)
 {
   // Werte die abgespeichert werden und an R zurueckgegeben werden
-  const unsigned int column = 5;        // colums of matrix
-  const unsigned int c_nb_values = 200; // rows of matrix
+  static const unsigned int column = 5;        // colums of matrix
+  static const unsigned int c_nb_values = 999; // rows of matrix
+  static int c_seq[999];
+
+  //static int* p_seq = (int*)calloc(c_nb_values, sizeof(int));
 
   //Datenspeicher von R lesbar
   SEXP result = PROTECT(allocVector(REALSXP, c_nb_values*column));
@@ -157,7 +160,6 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
       if (dist_ < betrag(REAL(Ziel_Schussebenen)[0] - p_sx[i], REAL(Ziel_Schussebenen)[1] - p_sy[i]) || round(angle_ / pi * 180 * 1000) / 1000 < -89.99 || i == iter-1) {
 
         int ratio = floor(i / c_nb_values-1);
-        int c_seq[c_nb_values];
         for (int i = 0; i < (c_nb_values) ; i++) {
           c_seq[i] = i * ratio;
         }
@@ -187,7 +189,7 @@ SEXP Flugbahn (SEXP v0, SEXP t ,SEXP angle_Schussebenen, SEXP Ziel_Schussebenen,
       if (p_sx[i] > REAL(Ziel_Schussebenen)[0]) {
 
         int ratio = floor(i / c_nb_values-1);
-        int c_seq[c_nb_values];
+        
         for (int i = 0; i < (c_nb_values) ; i++) {
           c_seq[i] = i * ratio;
         }
@@ -228,7 +230,8 @@ SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_
 {
   // Werte die abgespeichert werden und an R zurueckgegeben werden
   const unsigned int column = 3;        // colums of matrix
-  const unsigned int c_nb_values = 1000; // rows of matrix
+  const unsigned int c_nb_values = 999; // rows of matrix
+  static int c_seq[999];
 
   //Datenspeicher von R lesbar
   SEXP result = PROTECT(allocVector(REALSXP, c_nb_values*column));
@@ -255,9 +258,9 @@ SEXP pendulum_motion(SEXP t, SEXP L, SEXP delta_t, SEXP THETA_0, SEXP THETA_DOT_
     p_theta[i] = theta;
     p_theta_dot[i] = theta_dot;
   }
-  // Nur die die vorgegebenen Anzahl Werte zurückgeben
+  // Nur die vorgegebenen Anzahl Werte zurückgeben
   int ratio = floor(nb_values / c_nb_values)+1;
-  int c_seq[c_nb_values];
+  
   for (int i = 0; i < (c_nb_values); i++) {
     c_seq[i] = i * ratio;
   }
